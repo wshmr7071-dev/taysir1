@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تيسير - المنصة الطبية والإنسانية الشاملة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+            overscroll-behavior-y: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .tab-btn.active { border-bottom: 3px solid #0d9488; color: #0d9488; }
+        .gradient-header { background: linear-gradient(135deg, #0f766e 0%, #115e59 100%); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 pb-20">
+
+    <!-- Header -->
+    <header class="gradient-header text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <div class="bg-white/10 p-2 rounded-xl backdrop-blur-sm">
+                    <i class="fa-solid fa-hand-holding-medical text-2xl text-emerald-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black tracking-wide">تَيْسِير</h1>
+                    <p class="text-[10px] text-emerald-200">منصة الخدمات الطبية والإنسانية المعتمدة</p>
+                </div>
+            </div>
+            <button onclick="openModal()" class="bg-emerald-400 hover:bg-emerald-500 text-slate-900 text-xs font-bold px-3 py-2 rounded-xl shadow transition flex items-center gap-1">
+                <i class="fa-solid fa-plus"></i> تسجيل تبرع جديد
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white shadow-sm sticky top-[61px] z-40 border-b border-slate-100">
+        <div class="max-w-md mx-auto flex justify-around">
+            <button onclick="switchTab('beneficiary')" id="btn-beneficiary" class="tab-btn active flex-1 py-3 text-center font-bold text-sm transition text-slate-600">
+                <i class="fa-solid fa-hands-holding-child ml-1"></i> واجهة المستفيد
+            </button>
+            <button onclick="switchTab('donor')" id="btn-donor" class="tab-btn flex-1 py-3 text-center font-bold text-sm transition text-slate-500">
+                <i class="fa-solid fa-box-archive ml-1"></i> المتبرع والمستودع
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-md mx-auto p-4 space-y-4">
+
+        <!-- Beneficiary Section -->
+        <section id="view-beneficiary" class="space-y-4">
+            <!-- Search Bar -->
+            <div class="relative">
+                <i class="fa-solid fa-search absolute right-4 top-3.5 text-slate-400"></i>
+                <input type="text" id="searchInput" onkeyup="filterItems()" placeholder="ابحث عن جهاز، كرسي متحرك، أدوية..." class="w-full bg-white pr-11 pl-4 py-3 rounded-2xl border border-slate-200 text-sm focus:outline-none focus:border-teal-600 shadow-sm">
+            </div>
+
+            <!-- Categories Filter -->
+            <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                <button onclick="filterCategory('all')" class="cat-btn bg-teal-700 text-white text-xs px-4 py-2 rounded-xl whitespace-nowrap shadow-sm font-semibold">الكل</button>
+                <button onclick="filterCategory('devices')" class="cat-btn bg-white text-slate-600 text-xs px-4 py-2 rounded-xl whitespace-nowrap border border-slate-200">أجهزة طبية</button>
+                <button onclick="filterCategory('meds')" class="cat-btn bg-white text-slate-600 text-xs px-4 py-2 rounded-xl whitespace-nowrap border border-slate-200">أدوية مزمنة</button>
+                <button onclick="filterCategory('blood')" class="cat-btn bg-white text-slate-600 text-xs px-4 py-2 rounded-xl whitespace-nowrap border border-slate-200">بنوك الدم</button>
+            </div>
+
+            <!-- Items List -->
+            <div id="itemsList" class="space-y-3">
+                <!-- Card 1 -->
+                <div class="item-card bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-2" data-category="devices" data-name="كرسي متحرك كهربائي">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-teal-50 text-teal-700 text-[10px] font-bold px-2.5 py-1 rounded-lg">أجهزة طبية</span>
+                        <span class="text-xs text-slate-400"><i class="fa-solid fa-location-dot ml-1"></i> الرياض</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-800">كرسي متحرك كهربائي بحالة ممتازة</h3>
+                    <p class="text-xs text-slate-500">مستخدم لفترة بسيطة، ومناسب لحالات الشلل النصفي وكبار السن.</p>
+                    <div class="flex justify-between items-center pt-2 border-t border-slate-50">
+                        <span class="text-xs font-semibold text-emerald-600"><i class="fa-solid fa-circle-check"></i> متوفر للاستلام الفوري</span>
+                        <button onclick="requestItem('كرسي متحرك كهربائي')" class="bg-teal-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold shadow hover:bg-teal-800 transition">طلب الحجز</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="item-card bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-2" data-category="meds" data-name="أنسولين أدوية سكري">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-amber-50 text-amber-700 text-[10px] font-bold px-2.5 py-1 rounded-lg">أدوية مزمنة</span>
+                        <span class="text-xs text-slate-400"><i class="fa-solid fa-location-dot ml-1"></i> جدة</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-800">أقلام أنسولين ومستلزمات قياس السكر</h3>
+                    <p class="text-xs text-slate-500">مجموعة إبر وأقلام أصلية غير مفتوحة وغير منتهية الصلاحية.</p>
+                    <div class="flex justify-between items-center pt-2 border-t border-slate-50">
+                        <span class="text-xs font-semibold text-emerald-600"><i class="fa-solid fa-circle-check"></i> متوفر</span>
+                        <button onclick="requestItem('أقلام أنسولين')" class="bg-teal-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold shadow hover:bg-teal-800 transition">طلب الحجز</button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="item-card bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-2" data-category="devices" data-name="سرير طبي مراتب هواء">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-teal-50 text-teal-700 text-[10px] font-bold px-2.5 py-1 rounded-lg">أجهزة طبية</span>
+                        <span class="text-xs text-slate-400"><i class="fa-solid fa-location-dot ml-1"></i> الدمام</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-800">سرير طبي كهربائي مع مراتب طبية</h3>
+                    <p class="text-xs text-slate-500">سرير مخصص للمرضى المقيمين طويلاً بالفراش، بحالة جديدة تماماً.</p>
+                    <div class="flex justify-between items-center pt-2 border-t border-slate-50">
+                        <span class="text-xs font-semibold text-emerald-600"><i class="fa-solid fa-circle-check"></i> متوفر</span>
+                        <button onclick="requestItem('سرير طبي كهربائي')" class="bg-teal-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold shadow hover:bg-teal-800 transition">طلب الحجز</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donor Section -->
+        <section id="view-donor" class="space-y-4 hidden">
+            <div class="bg-teal-50 border border-teal-100 p-4 rounded-2xl text-center space-y-2">
+                <div class="w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+                <h3 class="font-bold text-teal-900 text-base">لديك أجهزة طبية فائضة عن حاجتك؟</h3>
+                <p class="text-xs text-teal-700">ساهم معنا في تخفيف معاناة محتاجي الرعاية الطبية والأجهزة المنزلية عبر تبرعك الآمن.</p>
+                <button onclick="openModal()" class="w-full bg-teal-700 text-white py-3 rounded-xl font-bold text-sm shadow hover:bg-teal-800 transition">أضف تبرعك الآن</button>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                <h4 class="font-bold text-sm text-slate-700"><i class="fa-solid fa-list-check ml-1 text-teal-600"></i> تبرعاتك المسجلة</h4>
+                <div id="userDonations" class="space-y-2">
+                    <p class="text-xs text-slate-400 text-center py-6">لم تقم بإضافة أي تبرعات حتى الآن.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Form for New Donation -->
+    <div id="donationModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-800 text-lg">تسجيل تبرع طبي جديد</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <form id="donationForm" onsubmit="submitDonation(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">نوع التبرع</label>
+                    <select id="donCategory" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:outline-none focus:border-teal-600">
+                        <option value="devices">أجهزة طبية (كرسي، سرير، جهاز تنفس)</option>
+                        <option value="meds">أدوية مزمنة سليمة</option>
+                        <option value="blood">حملة تبرع بالدم</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">عنوان الصنف أو التبرع</label>
+                    <input type="text" id="donTitle" required placeholder="مثال: كرسي متحرك يدوي بحالة ممتازة" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:outline-none focus:border-teal-600">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">المدينة / الحي</label>
+                    <input type="text" id="donCity" required placeholder="مثال: الرياض - حي الورود" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:outline-none focus:border-teal-600">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">وصف موجز لحالة الصنف</label>
+                    <textarea id="donDesc" rows="3" required placeholder="اكتب تفاصيل التبرع..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:outline-none focus:border-teal-600"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-teal-700 text-white py-3 rounded-xl font-bold text-sm shadow hover:bg-teal-800 transition">نشر التبرع في المنصة</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <footer class="bg-white border-t border-slate-200 fixed bottom-0 left-0 right-0 z-40">
+        <div class="max-w-md mx-auto flex justify-around py-2">
+            <button onclick="switchTab('beneficiary')" class="flex flex-col items-center text-teal-700 text-[10px] font-bold">
+                <i class="fa-solid fa-house text-lg mb-0.5"></i> الرئيسية
+            </button>
+            <button onclick="openModal()" class="flex flex-col items-center text-slate-400 text-[10px] font-bold hover:text-teal-700">
+                <i class="fa-solid fa-circle-plus text-lg mb-0.5"></i> تبرع
+            </button>
+            <button onclick="switchTab('donor')" class="flex flex-col items-center text-slate-400 text-[10px] font-bold hover:text-teal-700">
+                <i class="fa-solid fa-user text-lg mb-0.5"></i> حسابي
+            </button>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tab) {
+            const benSec = document.getElementById('view-beneficiary');
+            const donSec = document.getElementById('view-donor');
+            const btnBen = document.getElementById('btn-beneficiary');
+            const btnDon = document.getElementById('btn-donor');
+
+            if (tab === 'beneficiary') {
+                benSec.classList.remove('hidden');
+                donSec.classList.add('hidden');
+                btnBen.classList.add('active', 'text-teal-700');
+                btnBen.classList.remove('text-slate-500');
+                btnDon.classList.remove('active', 'text-teal-700');
+                btnDon.classList.add('text-slate-500');
+            } else {
+                benSec.classList.add('hidden');
+                donSec.classList.remove('hidden');
+                btnDon.classList.add('active', 'text-teal-700');
+                btnDon.classList.remove('text-slate-500');
+                btnBen.classList.remove('active', 'text-teal-700');
+                btnBen.classList.add('text-slate-500');
+            }
+        }
+
+        function openModal() {
+            document.getElementById('donationModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('donationModal').classList.add('hidden');
+        }
+
+        function filterCategory(category) {
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-teal-700', 'text-white', 'font-semibold');
+                btn.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+            });
+            event.target.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+            event.target.classList.add('bg-teal-700', 'text-white', 'font-semibold');
+
+            const cards = document.querySelectorAll('.item-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterItems() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.item-card');
+            cards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                if (name.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function requestItem(itemName) {
+            alert('تم استلام طلبك لـ (' + itemName + ') بنجاح. سيتم التواصل معك من قِبل المشرف لتنسيق الاستلام.');
+        }
+
+        function submitDonation(event) {
+            event.preventDefault();
+            const title = document.getElementById('donTitle').value;
+            const city = document.getElementById('donCity').value;
+            const desc = document.getElementById('donDesc').value;
+            const cat = document.getElementById('donCategory').value;
+
+            const listContainer = document.getElementById('userDonations');
+            if (listContainer.innerHTML.includes('لم تقم')) {
+                listContainer.innerHTML = '';
+            }
+
+            const newCard = document.createElement('div');
+            newCard.className = "item-card bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1";
+            newCard.dataset.category = cat;
+            newCard.dataset.name = title;
+            newCard.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-sm text-slate-800">${title}</span>
+                    <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">قيد المراجعة</span>
+                </div>
+                <p class="text-xs text-slate-500">${desc}</p>
+                <div class="text-[10px] text-slate-400"><i class="fa-solid fa-location-dot ml-1"></i> ${city}</div>
+            `;
+            listContainer.appendChild(newCard);
+
+            const mainList = document.getElementById('itemsList');
+            const mainCard = document.createElement('div');
+            mainCard.className = "item-card bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-2";
+            mainCard.dataset.category = cat;
+            mainCard.dataset.name = title;
+            mainCard.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <span class="bg-teal-50 text-teal-700 text-[10px] font-bold px-2.5 py-1 rounded-lg">تبرع جديد</span>
+                    <span class="text-xs text-slate-400"><i class="fa-solid fa-location-dot ml-1"></i> ${city}</span>
+                </div>
+                <h3 class="font-bold text-base text-slate-800">${title}</h3>
+                <p class="text-xs text-slate-500">${desc}</p>
+                <div class="flex justify-between items-center pt-2 border-t border-slate-50">
+                    <span class="text-xs font-semibold text-emerald-600"><i class="fa-solid fa-circle-check"></i> متاح</span>
+                    <button onclick="requestItem('${title}')" class="bg-teal-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold shadow hover:bg-teal-800 transition">طلب الحجز</button>
+                </div>
+            `;
+            mainList.prepend(mainCard);
+
+            closeModal();
+            document.getElementById('donationForm').reset();
+            alert('تم إضافة تبرعك ونشره في المنصة بنجاح!');
+        }
+    </script>
+</body>
+</html>
